@@ -1,0 +1,10 @@
+git clone https://github.com/aialeksandrov/filmbase2024
+cd filmbase2024
+git checkout main
+python -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py import_films
+python manage.py runserver
