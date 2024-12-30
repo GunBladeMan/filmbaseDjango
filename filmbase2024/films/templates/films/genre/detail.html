@@ -1,0 +1,31 @@
+{% extends 'films/base.html' %}
+{% load films_tags %}
+{% load django_bootstrap5 %}
+
+{% block breadcrumb %}
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'films:genre_list' %}">{{ 'films:genre'|model_verbose_name_plural }}</a>
+      </li>
+      <li class="breadcrumb-item active">{{ genre.name }}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <h1>{{ genre.name }}</h1>
+  {% if user.is_superuser %}
+    <div class="my-4">
+      <a href="{% url 'films:genre_update' genre.id %}" class="btn btn-primary">
+        <i class="bi-pencil-square"></i>
+        Редактировать
+      </a>
+      <a href="{% url 'films:genre_delete' genre.id %}" class="btn btn-danger">
+        <i class="bi-trash"></i>
+        Удалить
+      </a>
+    </div>
+  {% endif %}
+  {% include "films/films.html" %}
+{% endblock %}

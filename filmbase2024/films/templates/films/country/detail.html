@@ -1,0 +1,31 @@
+{% extends 'films/base.html' %}
+{% load films_tags %}
+{% load django_bootstrap5 %}
+
+{% block breadcrumb %}
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'films:country_list' %}">{{ 'films:country'|model_verbose_name_plural }}</a>
+      </li>
+      <li class="breadcrumb-item active">{{ country.name }}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <h1>{{ country.name }}</h1>
+  {% if user.is_superuser %}
+    <div class="my-4">
+      <a href="{% url 'films:country_update' country.id %}" class="btn btn-primary">
+        <i class="bi-pencil-square"></i>
+        Редактировать
+      </a>
+      <a href="{% url 'films:country_delete' country.id %}" class="btn btn-danger">
+        <i class="bi-trash"></i>
+        Удалить
+      </a>
+    </div>
+  {% endif %}
+  {% include "films/films.html" %}
+{% endblock %}

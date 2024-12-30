@@ -1,0 +1,26 @@
+{% extends 'films/base.html' %}
+{% load django_bootstrap5 %}
+{% load films_tags %}
+
+{% block breadcrumb %}
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'films:film_list' %}">{{ 'films:film'|model_verbose_name_plural }}</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a href="{% url 'films:film_detail' form.instance.id %}">{{ form.instance.id }}</a>
+      </li>
+      <li class="breadcrumb-item active">Редактирование фильма</li>
+    </ol>
+  </nav>
+{% endblock %}
+{% block content %}
+  <h1>Редактирование фильма</h1>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {{ form.media }}
+    {% bootstrap_button button_type='submit' content='Сохранить' %}
+  </form>
+{% endblock %}

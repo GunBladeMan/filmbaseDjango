@@ -1,0 +1,20 @@
+{% extends 'films/base.html' %}
+{% load films_tags %}
+
+{% block content %}
+  <h1>
+    {{ 'films:genre'|model_verbose_name_plural }}
+    {% if user.is_superuser %}
+      <a href="{% url 'films:genre_create' %}" title="Добавить жанр" class="btn btn-primary"><i class="bi-plus-lg"></i></a>
+    {% endif %}
+  </h1>
+  {% if genres %}
+    <div class="list-group">
+      {% for genre in genres %}
+        <a href="{% url 'films:genre_detail' genre.id %}" class="list-group-item list-group-item-action">{{ genre.name }}</a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">Жанры не найдены</div>
+  {% endif %}
+{% endblock %}

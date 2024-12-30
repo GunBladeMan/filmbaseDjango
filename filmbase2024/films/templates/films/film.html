@@ -1,0 +1,14 @@
+<div class="card h-100">
+  {% if film.cover %}
+    <img src="{{ film.cover.url }}" alt="{{ film.name }}" class="card-img-top" />
+  {% endif %}
+  <div class="card-body">
+    <h5 class="card-title">{{ film.name }}</h5>
+    {% if film.origin_name %}
+      <h6 class="card-subtitle mb-2 text-body-secondary">{{ film.origin_name }}</h6>
+    {% endif %}  
+  </div>
+  <div class="card-footer">
+    <a href="{% url 'films:film_detail' film.id %}" class="text-decoration-none stretched-link">Подробнее</a>
+  </div>
+</div>

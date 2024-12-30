@@ -1,0 +1,15 @@
+{% extends 'signup/base.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+  <h2>Регистрация</h2>
+  <form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form layout='floating' %}
+    <div class="d-flex">
+      {% bootstrap_button button_type="submit" content="Зарегистрироваться" %}
+      <a href="{% url 'login' %}" class="ms-auto btn btn-outline-primary">Войти</a>
+    </div>
+    
+  </form>
+{% endblock %}

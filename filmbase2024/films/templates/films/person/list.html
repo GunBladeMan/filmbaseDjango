@@ -1,0 +1,14 @@
+{% extends 'films/base.html' %}
+{% load films_tags %}
+
+
+{% block content %}
+  <h1>
+    {{'films:person'|model_verbose_name_plural}}
+    {% if user.is_superuser %}
+      <a href="{% url 'films:person_create' %}" title="Добавить персону" class="btn btn-primary"><i class="bi-plus-lg"></i></a>
+    {% endif %}
+  </h1>  
+  {% include 'films/person/search.html' %}
+  {% include "films/people.html"%}
+{% endblock %}

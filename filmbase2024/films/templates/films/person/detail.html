@@ -1,0 +1,79 @@
+{% extends 'films/base.html' %}
+{% load films_tags %}
+
+{% block breadcrumb %}
+  <nav>
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a href="{% url 'films:person_list' %}">{{ 'films:person'|model_verbose_name_plural }}</a>
+      </li>
+      <li class="breadcrumb-item active">{{ person.name }}</li>
+    </ol>
+  </nav>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-3">
+      {% if person.photo %}
+        <img src="{{ person.photo.url }}" alt="{{ person.name }}" class="img-thumbnail" />
+      {% endif %}
+      {% if user.is_superuser %}
+      <div class="d-grid gap-2 my-4">
+        <a href="{% url 'films:person_update' person.id %}" class="btn btn-primary btn-block">
+          <i class="bi-pencil-square"></i>
+          Редактировать
+        </a>
+        <a href="{% url 'films:person_delete' person.id %}" class="btn btn-danger btn-block">
+          <i class="bi-trash"></i>
+          Удалить
+        </a>
+      </div>
+      {% endif %}
+    </div>
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title">{{ person.name }}</h1>
+          {% if person.origin_name %}
+            <h2 class="card-subtitle mb-2 text-body-secondary">{{ person.origin_name }}</h2>
+          {% endif %}
+          <dl class="row">
+            {% if person.birthday %}
+              <dt class="col-md-3 text-md-end">
+                {% verbose_name person 'birthday' %}
+              </dt>
+              <dd class="col-md-9">
+                {{ person.birthday|date }}
+                <span class="ml-2 text-body-secondary">
+                  {{ person.age }}
+                  {{ person.age|ru_plural:'год,года,лет' }}
+                </span>
+              </dd>
+            {% endif %}
+            {% if person.filmcrew_set.all %}
+              {% for prof in person.filmcrew_set.all %}
+                {% ifchanged %}
+                <dt class="col-md-3 text-md-end">
+                  {{ prof.name.title }}
+                </dt>
+                <dd class="col-md-9">
+                  <ol>
+                    {% for crew in person.filmcrew_set.all %}
+                      {% if crew.name == prof.name %}
+                        <li>
+                          <a href = "{% url 'films:film_detail' crew.film.id %}">{{crew.film.name}}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ol>
+                </dd>
+                {% endifchanged %}
+              {% endfor %}
+            {% endif %}
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

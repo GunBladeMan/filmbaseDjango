@@ -1,0 +1,45 @@
+{% load films_tags %}
+<nav class="navbar navbar-expand-md bg-body-tertiary mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'films:home' %}">Каталог фильмов</a>
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"><i class="bi-justify"></i></button>
+    <div class="navbar-collapse collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/' or request.path|slice:':7' == '/films/' %}active{% endif %}" href="{% url 'films:film_list' %}">{{ 'films:film'|model_verbose_name_plural }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path|slice:':8' == '/people/' %}active{% endif %}" href="{% url 'films:person_list' %}">{{ 'films:person'|model_verbose_name_plural }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path|slice:':11' == '/countries/' %}active{% endif %}" href="{% url 'films:country_list' %}">{{ 'films:country'|model_verbose_name_plural }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% if request.path|slice:':8' == '/genres/' %}active{% endif %}" href="{% url 'films:genre_list' %}">{{ 'films:genre'|model_verbose_name_plural }}</a>
+        </li>
+      </ul>
+      <div>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if user.is_authenticated %}
+            <li class="nav-item">
+              <span class="nav-link">{{ user.username }}</span>
+            </li>
+            <li class="nav-item">
+              <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="nav-link">Выйти</button>
+              </form>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a href="{% url 'login' %}" class="nav-link">
+                <i class="box-arrow-in-right"></i>
+                Войти
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

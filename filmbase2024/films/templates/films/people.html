@@ -1,0 +1,17 @@
+
+{% load django_bootstrap5 %}
+
+{% if people %}
+    <div class="row">
+      {% for person in people %}
+        <div class="col-md-3 py-2">
+          {% include "films/person.html" with person=person %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="my-4">
+      {% bootstrap_pagination people %}
+    </div>    
+  {% else %}
+    <div class="alert alert-info">Персоны не найдены</div>
+  {% endif %}
